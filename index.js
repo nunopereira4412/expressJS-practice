@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 
+app.use("/static", express.static("public"));
+app.use(express.static("images"));
+
 const PORT = 4001;
 
 //////////////////////
@@ -13,6 +16,10 @@ app.set('views', './views');
 
 app.get("/firstTemplate", (req, res) => {
     res.render("firstView");
+});
+
+app.get("/testImageStaticServing", (req, res) => {
+    res.render("testImageStaticServing");
 });
 
 app.get("/dynamicView", (req, res) => {
