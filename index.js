@@ -3,11 +3,26 @@ const app = express();
 
 const PORT = 4001;
 
-app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
+//////////////////////
+//
+// PUG
+//
+
+app.set('view engine', 'pug');
+app.set('views', './views');
+
+app.get("/firstTemplate", (req, res) => {
+    res.render("firstView");
 });
 
-const things = require("./things.js");
+app.get("/dynamicView", (req, res) => {
+    res.render("dynamicView", {
+        name: "testName",
+        url: "http://www.google.com"
+    });
+});
+
+//////////////////////
 
 app.all("/test", (req, res) => {
     res.send("HTTP methods have no effect on this route\n");
@@ -17,6 +32,7 @@ app.get("/:id([0-9]{3})", (req, res) => {
     res.send("id is " + req.params.id + "\n");
 });
 
+const things = require("./things.js");
 app.use("/things", things);
 
 //////////////////////
@@ -40,7 +56,14 @@ app.use((req, res, next) => {
 
 //////////////////////
 
+// TODO 
+//
+// why cant reach this route? it works if placed before the "/"
 app.get("*", (req, res) => {
     res.send("Invalid URL\n");
+});
+
+app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
 });
 
