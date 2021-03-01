@@ -19,6 +19,28 @@ app.get("/:id([0-9]{3})", (req, res) => {
 
 app.use("/things", things);
 
+//////////////////////
+//
+// MIDDLEWARE TEST
+//
+
+app.use((req, res, next) => {
+    console.log("START");
+    next();
+});
+
+app.get("/", (req, res, next) => {
+    res.send("MIDDLE");
+    next();
+});
+
+app.use((req, res, next) => {
+    console.log("END");
+});
+
+//////////////////////
+
 app.get("*", (req, res) => {
     res.send("Invalid URL\n");
 });
+
